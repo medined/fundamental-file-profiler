@@ -12,11 +12,38 @@ Creates metadata for a static set of files.
 - `--log-file`: Path for logging exceptions.
 
 ## Process Steps
-1. Scan the source directory recursively.
-2. Expand archives (into expanded directory).
-3. Extract metadata and text using Apache Tika.
-4. Populate the SQLite database.
-5. Assign a sequential `file_id`.
+
+* Collect file details.
+* Set ignore flag.
+    * Thumbs.db
+* Calculate the MD5.
+    * if duplicate
+        * find earliest file. Update duplicate-of field
+        * set ignore flag
+* Set file category.
+    * "image" - gif, bmp
+    * "audio" - mp3, wav
+    * "video" - mp4, mkv
+    * "njdson"
+    * "json"
+* Expand files.
+    * zip, rar, tar, tgz, 7z
+* Copy MDB to parquet
+    * Each table gets its own parquet file.
+    * then file is ignored
+* Copy Spreadsheet to parquet
+    * Each tab gets its own parquet file
+    * then file is ignored
+* Calculate the MD5 again (for expanded files).
+    * now we can identify duplicate database tables and spreadshee tabs.
+* Extract column names.
+    * csv, parquet
+* Generate column sets.
+    * Files with the same column set can be combined.
+* Run Tika.
+    * Extract metadat
+    * Extract text
+* Count records.
 
 ## Database Schema
 
