@@ -11,6 +11,23 @@ Creates metadata for a static set of files.
 - `--sqlite-file`: Path for SQLite database.
 - `--log-file`: Path for logging exceptions.
 
+## Edge Cases
+
+Encoding Issues: Malformed Unicode and its handling (skip, replace, or log references).
+
+Structural Skew: Double-row headers in spreadsheets; mid-file schema shifts (e.g., mixing people and cars).
+
+Missing or Sparse Data: Partial rows missing fields; zero-length files; header-only files.
+
+Pattern Detection: Auto-incrementing fields (ID columns).
+
+Large Volume: 50,000+ files or massive sets impacting performance.
+
+Delimiters: Ambiguous or multiple delimiters; best-guess needed.
+
+Headerless Files: No header line present in CSV.
+
+
 ## Process Steps
 
 * Collect file details.
